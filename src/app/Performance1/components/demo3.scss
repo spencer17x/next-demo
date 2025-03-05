@@ -1,0 +1,74 @@
+@keyframes backgroundFade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.animating {
+  &.animating-up-isRiseRed-true {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(204, 61, 61, 0.11);
+      animation: backgroundFade 0.5s linear;
+      z-index: 0;
+    }
+  }
+
+  &.animating-up-isRiseRed-false {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(17, 173, 122, 0.11);
+      animation: backgroundFade 0.5s linear;
+      z-index: 0;
+    }
+  }
+
+  &.animating-down-isRiseRed-true {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(17, 173, 122, 0.11);
+      animation: backgroundFade 0.5s linear;
+      z-index: 0;
+    }
+  }
+
+  &.animating-down-isRiseRed-false {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(204, 61, 61, 0.11);
+      animation: backgroundFade 0.5s linear;
+      z-index: 0;
+    }
+  }
+}
+
+.amount-item {
+  position: relative;
+  width: 34%;
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+}

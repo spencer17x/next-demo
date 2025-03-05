@@ -1,0 +1,99 @@
+"use client";
+import { useInterval, useMount } from "ahooks";
+import React, { useCallback, useState } from "react";
+import { clsx } from "clsx";
+
+import "./demo4.scss";
+
+const AmountItem: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
+  children,
+  ...restProps
+}) => {
+  return (
+    <div className="amount-item" {...restProps}>
+      {children}
+    </div>
+  );
+};
+
+const Animating: React.FC<
+  React.HTMLAttributes<HTMLDivElement> & {
+    isUpFlag: string;
+    isRiseRed: boolean;
+  }
+> = ({ className, children, isUpFlag, isRiseRed, ...restProps }) => {
+  return (
+    <div
+      className={clsx(className, {
+        "animating-up-isRiseRed-true": isUpFlag === "up" && isRiseRed,
+        "animating-up-isRiseRed-false": isUpFlag === "up" && !isRiseRed,
+        "animating-down-isRiseRed-true": isUpFlag === "down" && isRiseRed,
+        "animating-down-isRiseRed-false": isUpFlag === "down" && !isRiseRed,
+      })}
+      {...restProps}
+    >
+      {children}
+    </div>
+  );
+};
+
+const App = () => {
+  const [list, setList] = useState<
+    Array<{
+      isUpFlag: string;
+      isRiseRed: boolean;
+      value: number;
+    }>
+  >([]);
+
+  const update = () => {
+    const data = Array.from({ length: 10 }, () => {
+      return {
+        isUpFlag: Math.random() > 0.5 ? "up" : "down",
+        isRiseRed: Math.random() > 0.5,
+        value: Math.random() * 100,
+      };
+    });
+    setList(data);
+  };
+
+  useInterval(() => {
+    update();
+  }, 500);
+
+  useMount(() => {
+    update();
+  });
+
+  const handleEnd = useCallback(
+    (event: React.AnimationEvent<HTMLDivElement>) => {
+      console.log("spencer handleEnd");
+      const target = event.target as HTMLElement;
+      target.classList.remove("animating");
+    },
+    []
+  );
+
+  return (
+    <div>
+      <div>App</div>
+      <div>
+        {list.map((item, index) => {
+          return (
+            <AmountItem key={index}>
+              <span>{item.value}</span>
+              <Animating
+                className={item.isUpFlag !== "equal" ? "animating" : ""}
+                isUpFlag={item.isUpFlag}
+                isRiseRed={item.isRiseRed}
+                onAnimationEnd={handleEnd}
+              />
+            </AmountItem>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+export default App;
