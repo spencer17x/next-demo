@@ -16,13 +16,7 @@ const backgroundFade = keyframes`
 const getBackgroundAnimation = (isUpFlag: string, isRiseRed: boolean) => {
   if (isUpFlag === "up") {
     return css`
-      &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+      & {
         background-color: ${isRiseRed
           ? "rgba(204, 61, 61, 0.11)"
           : "rgba(17, 173, 122, 0.11)"};
@@ -33,13 +27,7 @@ const getBackgroundAnimation = (isUpFlag: string, isRiseRed: boolean) => {
   }
   if (isUpFlag === "down") {
     return css`
-      &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+      & {
         background-color: ${isRiseRed
           ? "rgba(17, 173, 122, 0.11)"
           : "rgba(204, 61, 61, 0.11)"};
@@ -107,7 +95,8 @@ const App = () => {
       <div>
         {list.map((item, index) => {
           return (
-            <AmountItem key={index}
+            <AmountItem
+              key={index}
               className={item.isUpFlag !== "equal" ? "animating" : ""}
               isUpFlag={item.isUpFlag}
               isRiseRed={item.isRiseRed}
