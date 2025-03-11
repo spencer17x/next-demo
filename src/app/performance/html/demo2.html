@@ -20,7 +20,7 @@
         display: flex;
         justify-content: flex-end;
       }
-      .animating::before {
+      .animating {
         content: '';
         width: 100%;
         height: 100%;
@@ -52,6 +52,10 @@
         item.appendChild(animating);
         item.classList.add("item");
         list.appendChild(item);
+        animating.onanimationend = () => {
+          console.log('animationend');
+          animating.classList.remove('animating');
+        }
       }
       // 每隔500ms更新值
       setInterval(() => {
@@ -59,7 +63,11 @@
         for (let i = 0; i < children.length; i++) {
           const item = children[i];
           const textNode = item.querySelector('span').firstChild;
-          textNode.nodeValue = Math.random();
+          const randomValue = Math.random();
+          if (randomValue > 0.5) {
+            item.querySelector('div').classList.add('animating');
+          }
+          textNode.nodeValue = randomValue;
         }
       }, 500)
     </script>
